@@ -1,0 +1,61 @@
+apply plugin:'application'
+mainClassName = "cj.studio.ecm.cjnet.Main"
+sourceSets { 
+	 main { 
+	 	java{
+	 		srcDir "$projectDir/src"
+	 	}
+	 	resources{
+		 	srcDir "$projectDir/src"
+		 }
+	 } 
+ 	}
+ 		sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+ 	tasks.withType(JavaCompile) {  
+        options.encoding = "UTF-8"  
+    } 
+ repositories { 
+ 	mavenCentral();
+	 flatDir(dirs: "$projectDir/global/lib") 
+ } 
+ jar {
+    manifest {
+        attributes 'Manifest-Version': version,
+                   'Class-Path': '.',
+                   'Main-Class':'cj.studio.ecm.cjnet.Main',
+                   'DynamicImport-Package':'*'
+    }
+}
+
+dependencies {
+	//compile project(':cj.ultimate')
+	//compile project(':cj.studio.ecm.corelib')
+	//compile project(':cj.studio.ecm.net');
+	compile fileTree(dir: '../global/cjtools', includes: ['*.jar'])
+	compile(
+            'commons-cli:commons-cli:1.2'
+    )
+    testCompile(
+        'junit:junit:4.11'
+    )
+	compile fileTree(dir: '../global/lib', includes: ['*.jar'])
+	compile fileTree(dir: 'libs', includes: ['*.jar'])
+    runtime fileTree(dir: 'libs', includes: ['*.jar'])
+}
+task runnableJar(dependsOn:':cj.studio.ecm.chip.cjnet:release',type: Jar) {
+	manifest {
+        attributes 'Implementation-Title': 'Gradle Jar File Example',  
+        	'Implementation-Version': version,
+        	'Main-Class': 'cj.studio.ecm.cjnet.Main'
+    }
+    baseName = 'cjnet'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+    task release(dependsOn: runnableJar,type: Copy) {
+     dependsOn "build"
+     from 'build/libs/'
+     into '../cmdtools/cjnet/'
+     include '**/*.jar'
+ 	}

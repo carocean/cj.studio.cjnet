@@ -1,0 +1,32 @@
+{
+	entryPoint : {
+		activators : []
+	},
+	assemblyInfo : {
+		assemblyTitle : "cmdAssembly",
+		assemblyResource:"/assemblies",
+		assemblyDescription : "",
+		assemblyConfiguration : "",
+		assemblyCompany : "",
+		assemblyProduct : "cj.studio.ecm.chip.command",
+		assemblyCopyright : "Copyright   2011",
+		assemblyTrademark : "",
+		assemblyCulture : "",
+		guid : "ec9e697a-ffea-4292-b976-eewww",
+		assemblyVersion : "1.0.0.0",
+		assemblyFileVersion : "1.0.0.0"
+	},
+	global:{
+		default:"zh_CN",
+		desc:"如果系统环境要求各芯片采用的语言本芯片没有，则芯片可采用默认语言"
+		},
+	serviceContainer : {
+		name : "netContainer",
+		scans : [{
+					package : "cj.studio.ecm.chip.command",
+					extName : ".class|.json",
+					exoterical:"true"
+				}]
+
+	}
+}
